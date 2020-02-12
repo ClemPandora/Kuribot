@@ -15,7 +15,6 @@ public class CardSearch {
             FileReader reader = new FileReader("cardinfo.json");
             JSONTokener tokener = new JSONTokener(reader);
             cardList = new JSONArray(tokener);
-            cardList = (JSONArray) cardList.get(0);
         } catch (IOException e) {
             e.printStackTrace();
         }
