@@ -32,6 +32,7 @@ public class Main extends ListenerAdapter {
     private final String CODE = "```";
     private static CardSearch cardSearch;
     private static String cmdChar;
+    private Thread timer;
 //    private static Database db;
 
     public static void main(String[] args) throws Exception{
@@ -112,7 +113,6 @@ public class Main extends ListenerAdapter {
                             event.getChannel().sendMessage(cardSearch.random()).queue();
                             break;
                         case "arch":
-                            Role role;
                             List<Role> rolelist = event.getGuild().getRolesByName("+"+arg,true);
                             Member member = event.getGuild().getMember(event.getAuthor());
                             if(rolelist.isEmpty()) {
@@ -135,6 +135,19 @@ public class Main extends ListenerAdapter {
                                     event.getGuild().addRoleToMember(member, rolelist.get(0)).queue();
                                     event.getChannel().sendMessage("Arch\u00e9type ajout\u00e9 !").queue();
                                 }
+                            }
+                        case "time":
+                            if(timer != null){
+                                timer.interrupt();
+                            }
+                            List<Role> rl = event.getMessage().getMentionedRoles();
+                            Message message = event.getChannel().sendMessage("> 40:00").complete();
+                            message.editMessage("> 40:00").queue();
+                            Thread tr = new Thread(new YugiTimer(message, rl.get(0)));
+                            tr.start();
+                        case "endTime":
+                            if (timer != null){
+                                timer.interrupt();
                             }
                         default:
                             break;
