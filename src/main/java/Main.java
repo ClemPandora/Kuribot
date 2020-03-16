@@ -141,10 +141,11 @@ public class Main extends ListenerAdapter {
                                 timer.interrupt();
                             }
                             List<Role> rl = event.getMessage().getMentionedRoles();
+                            event.getChannel().sendMessage("Timer actif !").queue();
                             Message message = event.getChannel().sendMessage("> 40:00").complete();
                             message.editMessage("> 40:00").queue();
-                            Thread tr = new Thread(new YugiTimer(message, rl.get(0)));
-                            tr.start();
+                            timer = new Thread(new YugiTimer(message, rl.get(0)));
+                            timer.start();
                         case "endTime":
                             if (timer != null){
                                 timer.interrupt();
