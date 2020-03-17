@@ -32,7 +32,7 @@ public class Main extends ListenerAdapter {
     private final String CODE = "```";
     private static CardSearch cardSearch;
     private static String cmdChar;
-    private Thread timer;
+    private YugiTimer timer;
 //    private static Database db;
 
     public static void main(String[] args) throws Exception{
@@ -138,18 +138,24 @@ public class Main extends ListenerAdapter {
                             }
                         case "time":
                             if(timer != null){
-                                timer.interrupt();
+                                timer.stopTime();
                             }
                             List<Role> rl = event.getMessage().getMentionedRoles();
-                            event.getChannel().sendMessage("Timer actif !").queue();
-                            Message message = event.getChannel().sendMessage("> 40:00").complete();
-                            message.editMessage("> 40:00").queue();
-                            timer = new Thread(new YugiTimer(message, rl.get(0)));
-                            timer.start();
-                        case "endTime":
-                            if (timer != null){
-                                timer.interrupt();
+                            if(!rl.isEmpty()){
+                                event.getChannel().sendMessage("Timer actif !").queue();
+                                Message message = event.getChannel().sendMessage("> 40:00").complete();
+                                message.editMessage("> 40:00").queue();
+                                timer = new YugiTimer(message, rl.get(0));
+                                timer.start();
+                            } else {
+                                event.getChannel().sendMessage("Merci de pr\u00e9ciser le r\u00f4le \u00e0 mentionner.").queue();
                             }
+                            break;
+                        case "stop":
+                            if (timer != null){
+                                timer.stopTime();
+                            }
+                            break;
                         default:
                             break;
                     }
