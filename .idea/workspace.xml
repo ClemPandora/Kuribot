@@ -9,7 +9,6 @@
     <list default="true" id="e032412e-e601-4bb2-a9f4-63855d53a534" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/YugiTimer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/YugiTimer.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -204,7 +203,21 @@
       <option name="project" value="LOCAL" />
       <updated>1584386087365</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="correct timer">
+      <created>1584456661699</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1584456661700</updated>
+    </task>
+    <task id="LOCAL-00004" summary="correct timer">
+      <created>1584456813395</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1584456813395</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -228,6 +241,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add timer" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add timer" />
+    <MESSAGE value="correct timer" />
+    <option name="LAST_COMMIT_MESSAGE" value="correct timer" />
   </component>
 </project>

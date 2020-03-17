@@ -136,6 +136,7 @@ public class Main extends ListenerAdapter {
                                     event.getChannel().sendMessage("Arch\u00e9type ajout\u00e9 !").queue();
                                 }
                             }
+                            break;
                         case "time":
                             if(timer != null){
                                 timer.stopTime();
