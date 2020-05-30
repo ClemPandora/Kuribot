@@ -2,8 +2,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,11 +15,29 @@ public class CardSearch {
 
     public CardSearch() {
         try {
-            FileReader reader = new FileReader("cardinfo.json");
-            JSONTokener tokener = new JSONTokener(reader);
+            //FileReader reader = new FileReader("cardinfo.json");
+            JSONTokener tokener = new JSONTokener(readUrl("https://db.ygoprodeck.com/api/v5/cardinfo.php"));
             cardList = new JSONArray(tokener);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private String readUrl(String urlString) throws Exception {
+        BufferedReader reader = null;
+        try {
+            URL url = new URL(urlString);
+            reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            StringBuffer buffer = new StringBuffer();
+            int read;
+            char[] chars = new char[1024];
+            while ((read = reader.read(chars)) != -1)
+                buffer.append(chars, 0, read);
+
+            return buffer.toString();
+        } finally {
+            if (reader != null)
+                reader.close();
         }
     }
 
