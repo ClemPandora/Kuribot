@@ -67,7 +67,11 @@ public class Main extends ListenerAdapter {
                             event.getChannel().sendMessage(CODE + COMMANDS_LIST + CODE).queue();
                             break;
                         case "c":
-                            event.getChannel().sendMessage(cardSearch.search(arg)).queue();
+                            try {
+                                event.getChannel().sendMessage(cardSearch.search(arg)).queue();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                             break;
                         case "d":
                             List<Message.Attachment> list = event.getMessage().getAttachments();

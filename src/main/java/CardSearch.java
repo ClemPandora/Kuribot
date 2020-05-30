@@ -41,11 +41,15 @@ public class CardSearch {
         }
     }
 
-    public String search(String recherche) {
+    public String search(String recherche) throws Exception {
         StringBuilder msg = new StringBuilder();
         if(!recherche.equals("")) {
             ArrayList<String> list = new ArrayList<>();
             boolean trouve = false;
+            if(cardList == null){
+                JSONTokener tokener = new JSONTokener(readUrl("https://db.ygoprodeck.com/api/v5/cardinfo.php"));
+                cardList = new JSONArray(tokener);
+            }
             for (Object json : cardList) {
                 JSONObject card = (JSONObject) json;
                 if (card.getString("name").equalsIgnoreCase(recherche)) {
