@@ -34,4 +34,5 @@ public class YugiTimer extends Thread {
         }
         msg.getChannel().sendMessage(role.getAsMention()+" Fin du temps !").queue();
     }
+
 }

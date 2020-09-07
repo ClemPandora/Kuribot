@@ -2,120 +2,87 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class CardSearch {
-    private JSONArray cardList;
-
-    public CardSearch() {
-        try {
-            //FileReader reader = new FileReader("cardinfo.json");
-            JSONTokener tokener = new JSONTokener(readUrl("https://db.ygoprodeck.com/api/v5/cardinfo.php"));
-            cardList = new JSONArray(tokener);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public CardSearch() throws Exception {
+        URL url = new URL("https://github.com/ProjectIgnis/BabelCDB/raw/master/cards.cdb");
+        ReadableByteChannel rbc = Channels.newChannel(url.openStream());
+        FileOutputStream fos = new FileOutputStream("cards.cdb");
+        fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+        fos.close();
+        rbc.close();
     }
 
-    private String readUrl(String urlString) throws Exception {
-        BufferedReader reader = null;
-        try {
-            URL url = new URL(urlString);
-            reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            StringBuffer buffer = new StringBuffer();
-            int read;
-            char[] chars = new char[1024];
-            while ((read = reader.read(chars)) != -1)
-                buffer.append(chars, 0, read);
+    public String search(String recherche){
 
-            return buffer.toString();
-        } finally {
-            if (reader != null)
-                reader.close();
-        }
-    }
-
-    public String search(String recherche) throws Exception {
         StringBuilder msg = new StringBuilder();
-        if(!recherche.equals("")) {
-            ArrayList<String> list = new ArrayList<>();
-            boolean trouve = false;
-            if(cardList == null){
-                JSONTokener tokener = new JSONTokener(readUrl("https://db.ygoprodeck.com/api/v5/cardinfo.php"));
-                cardList = new JSONArray(tokener);
-            }
-            for (Object json : cardList) {
-                JSONObject card = (JSONObject) json;
-                if (card.getString("name").equalsIgnoreCase(recherche)) {
-                    trouve = true;
-
-                    for (Object o : card.getJSONArray("card_images")) {
-                        JSONObject img = (JSONObject) o;
-                        if (!msg.toString().equals("")) {
-                            msg.append("\n");
-                        }
-                        msg.append(img.getString("image_url"));
+        if(!recherche.equals("")){
+            Connection connection = null;
+            try
+            {
+                // create a database connection
+                connection = DriverManager.getConnection("jdbc:sqlite:cards.cdb");
+                Statement statement = connection.createStatement();
+                statement.setQueryTimeout(30);  // set timeout to 30 sec.
+                ResultSet rs = statement.executeQuery("SELECT id FROM texts WHERE LOWER(name)=LOWER('"+recherche+"')");
+                if(rs.next()){
+                    msg.append("https://ygoprodeck.com/pics/").append(rs.getInt("id")).append(".jpg");
+                    while (rs.next()){
+                        msg.append("\n").append("https://ygoprodeck.com/pics/").append(rs.getInt("id")).append(".jpg");
                     }
-                } else if (!trouve && card.getString("name").toLowerCase().contains(recherche.toLowerCase())) {
-                    list.add(card.getString("name"));
+                } else {
+                    msg.append("D\u00e9sol\u00e9, je n'ai pas trouv\u00e9 cette carte.");
+                    msg.append("\nTu cherchais peut-\u00eatre celles-ci :");
+                    rs = statement.executeQuery("SELECT id,name FROM texts WHERE LOWER(name) LIKE LOWER('%"+recherche+"%')");
+                    while (rs.next()){
+                        msg.append("\n").append(rs.getString("name"));
+                    }
                 }
             }
-            if (!trouve) {
-                msg.append("D\u00e9sol\u00e9, je n'ai pas trouv\u00e9 cette carte.");
-                if (!list.isEmpty()) {
-                    msg.append("\nTu cherchais peut-\u00eatre celles-ci :");
-                    for (String name : list) {
-                        msg.append("\n- ");
-                        msg.append(name);
-                    }
+            catch(SQLException e)
+            {
+                // if the error message is "out of memory",
+                // it probably means no database file is found
+                System.err.println(e.getMessage());
+            }
+            finally
+            {
+                try
+                {
+                    if(connection != null)
+                        connection.close();
+                }
+                catch(SQLException e)
+                {
+                    // connection close failed.
+                    System.err.println(e.getMessage());
                 }
             }
         } else {
             msg.append("Je ne peux pas chercher une carte sans nom.");
         }
+
         return msg.toString();
     }
 
     public String searchArch(String arch) {
         String res = "";
-        if(!arch.equals("")) {
-            for (Object json : cardList) {
-                JSONObject card = (JSONObject) json;
-                if (card.has("archetype") && card.getString("archetype").equalsIgnoreCase(arch)) {
-                    res = card.getString("archetype");
-                    break;
-                }
-            }
-        }
         return res;
     }
 
     public JSONObject searchById(String id) {
-        for(Object json : cardList) {
-            JSONObject card = (JSONObject) json;
-            if(card.getString("id").equals(id)) {
-                return card;
-            }
-        }
         return null;
     }
 
     public String random() {
-        Random r = new Random();
-        int num = r.nextInt(cardList.length());
-        StringBuilder msg = new StringBuilder();
-        JSONArray card = ((JSONObject) cardList.get(num)).getJSONArray("card_images");
-        for (Object o : card) {
-            JSONObject img = (JSONObject) o;
-            msg.append(img.getString("image_url"));
-            msg.append("\n");
-        }
-        return msg.toString();
+        return "";
     }
 }
