@@ -27,10 +27,10 @@ repositories {
 }
 
 dependencies {
+    compile group:'org.xerial', name:'sqlite-jdbc', version:'3.32.3.2'
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile 'net.dv8tion:JDA:4.0.0_45'
     compile 'org.json:json:20190722'
-
 }
 
 apply plugin: "com.github.johnrengelman.shadow"

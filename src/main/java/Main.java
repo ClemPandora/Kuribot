@@ -1,16 +1,10 @@
 
-import net.dv8tion.jda.api.AccountType;
-import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-import javax.xml.crypto.Data;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.*;
 import java.util.List;
@@ -36,15 +30,49 @@ public class Main extends ListenerAdapter {
 //    private static Database db;
 
     public static void main(String[] args) throws Exception{
-        cardSearch = new CardSearch();
+        //cardSearch = new CardSearch();
+        Connection connection = null;
+        try
+        {
+            // create a database connection
+            connection = DriverManager.getConnection("jdbc:sqlite:cards.cdb");
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);  // set timeout to 30 sec.
+            ResultSet rs = statement.executeQuery("select * from texts");
+            while(rs.next())
+            {
+                // read the result set
+                System.out.println("name = " + rs.getString("name"));
+                System.out.println("id = " + rs.getInt("id"));
+            }
+        }
+        catch(SQLException e)
+        {
+            // if the error message is "out of memory",
+            // it probably means no database file is found
+            System.err.println(e.getMessage());
+        }
+        finally
+        {
+            try
+            {
+                if(connection != null)
+                    connection.close();
+            }
+            catch(SQLException e)
+            {
+                // connection close failed.
+                System.err.println(e.getMessage());
+            }
+        }
         cmdChar = "+";
 //        db = new Database();
-        JDABuilder builder = new JDABuilder(AccountType.BOT);
+        /*JDABuilder builder = new JDABuilder(AccountType.BOT);
         String token = "NTU3NTQ4MzcwODk4NDUyNDgy.D3J5Xg.pXd6ZMmtd6nb9oyP9HHeT_xpk_s";
         builder.setToken(token);
-        builder.setActivity(Activity.playing("+aide pour voir les commandes"));
+        builder.setActivity(Activity.playing(cmdChar+"aide pour voir les commandes"));
         builder.addEventListeners(new Main());
-        builder.build();
+        builder.build();*/
     }
 
     @Override
