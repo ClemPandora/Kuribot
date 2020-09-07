@@ -1,15 +1,10 @@
-import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Random;
 
 public class CardSearch {
     public CardSearch() throws Exception {
@@ -22,7 +17,6 @@ public class CardSearch {
     }
 
     public String search(String recherche){
-
         StringBuilder msg = new StringBuilder();
         if(!recherche.equals("")){
             Connection connection = null;
