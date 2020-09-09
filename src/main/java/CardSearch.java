@@ -5,8 +5,12 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Scanner;
 
 public class CardSearch {
+    private HashMap<String, HashMap<String,String>> texts;
+
     public CardSearch() throws Exception {
         URL url = new URL("https://github.com/ProjectIgnis/BabelCDB/raw/master/cards.cdb");
         ReadableByteChannel rbc = Channels.newChannel(url.openStream());
@@ -14,6 +18,18 @@ public class CardSearch {
         fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
         fos.close();
         rbc.close();
+        texts = new HashMap<>();
+        URL url2 = new URL("https://raw.githubusercontent.com/NaimSantos/DataEditorX/master/DataEditorX/data/cardinfo_english.txt");
+        Scanner scan = new Scanner(url2.openStream());
+        // "0x" + Integer.toHexString(int)
+        scan.nextLine();
+        while (!scan.hasNext("#end") && scan.hasNext()){
+            String category = scan.nextLine().substring(2);
+            texts.put(category, new HashMap<>());
+            while(!scan.hasNext("##.+") && scan.hasNext()){
+                texts.get(category).put(scan.next().replaceAll("^0x", ""), scan.nextLine().trim());
+            }
+        }
     }
 
     public String search(String recherche){
@@ -68,8 +84,12 @@ public class CardSearch {
     }
 
     public String searchArch(String arch) {
-        String res = "";
-        return res;
+        for (String value : texts.get("setname").values()) {
+            if(value.equalsIgnoreCase(arch)){
+                return value;
+            }
+        }
+        return "";
     }
 
     public JSONObject searchById(String id) {

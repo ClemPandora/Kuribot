@@ -3,10 +3,12 @@
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 
 import java.util.List;
 
@@ -31,17 +33,15 @@ public class Main extends ListenerAdapter {
 
     public static void main(String[] args) throws Exception{
         cardSearch = new CardSearch();
-        cardSearch.search("kur");
         // On attribut le caractère de commande
         cmdChar = "+";
 
         // On lance l'api JDA
-        JDABuilder builder = new JDABuilder(AccountType.BOT);
         String token = "NTU3NTQ4MzcwODk4NDUyNDgy.D3J5Xg.pXd6ZMmtd6nb9oyP9HHeT_xpk_s";
-        builder.setToken(token);
-        builder.setActivity(Activity.playing(cmdChar+"aide pour voir les commandes"));
-        builder.addEventListeners(new Main());
-        builder.build();
+        JDABuilder.createDefault(token)
+                .setActivity(Activity.playing(cmdChar+"aide pour voir les commandes"))
+                .addEventListeners(new Main())
+                .build();
     }
 
     // Méthode appelée à chaque message reçu par le bot
@@ -106,8 +106,8 @@ public class Main extends ListenerAdapter {
                 //TODO Recherche aléatoire
                 break;
             case "arch":
-                /*List<Role> rolelist = event.getGuild().getRolesByName("+"+arg,true);
-                Member member = event.getGuild().getMember(event.getAuthor());
+                List<Role> rolelist = event.getGuild().getRolesByName("+"+arg,true);
+                Member member = event.getMember();
                 if(rolelist.isEmpty()) {
                     String arch = cardSearch.searchArch(arg);
                     if(!arch.equals("")){
@@ -128,8 +128,7 @@ public class Main extends ListenerAdapter {
                         event.getGuild().addRoleToMember(member, rolelist.get(0)).queue();
                         event.getChannel().sendMessage("Arch\u00e9type ajout\u00e9 !").queue();
                     }
-                }*/
-                //TODO Ajout role archétype
+                }
                 break;
             case "time":
                 if(timer != null){
