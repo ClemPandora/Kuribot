@@ -14,16 +14,10 @@ import java.util.List;
 
 public class Main extends ListenerAdapter {
     private final String COMMANDS_LIST =
-            "Salut ! Je suis L'ultime tout-puissant Kuribot aux yeux marrons et rouges brillants des t\u00e9n\u00e8bres absolues !" +
-                    "\nVoici la liste des commandes que je peux exécuter :" +
+            "Salut ! Je suis L'ultime tout-puissant Kuribot marrons aux yeux rouges brillants des t\u00e9n\u00e8bres absolues !" +
+                    "\nVoici la liste des commandes que je peux ex\u00e9cuter :" +
                     "\n\n+aide : Si tu lis ce message, tu dois savoir \u00e0 quoi \u00e7a sert" +
                     "\n\n+c <nom de carte (anglais)> : Affiche l'image d'une carte" +
-                    "\n\n+d <fichier .ydk> : Affiche le contenu d'un deck sous forme d'image et de liste (les fichiers " +
-                    "ydk sont trouvable dans le dossier \"deck\" des jeux ygopro ou t\u00e9l\u00e9chargeable sur certains sites)" +
-//                    "\n\n+d <fichier .ydk> : Enregistre un deck dans la base de donn\u00e9e" +
-//                    "\n\n+dl : Affiche la liste des deck enregistr\u00e9s" +
-//                    "\n\n+dl <nom_du_deck> : Affiche une image du deck correspondant" +
-                    "\n\n+a : Affiche une carte al\u00e9atoire" +
                     "\n\n+arch <nom d'arch\u00e9type (anglais)> : Vous ajoute un r\u00f4le correspondant \u00e0 l'arch\u00e9type choisi";
 
     private final String CODE = "```";
