@@ -28,7 +28,6 @@ public class CardSearch {
     public CardSearch() throws Exception {
         for (int i = 0; i < CARDSDB_URL.length; i++) {
             URL url = new URL(CARDSDB_URL[i]);
-            System.out.println(DBFILENAME[i]);
             ReadableByteChannel rbc = Channels.newChannel(url.openStream());
             FileOutputStream fos = new FileOutputStream(DBFILENAME[i]);
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
@@ -99,7 +98,7 @@ public class CardSearch {
                 msg.append("D\u00e9sol\u00e9, je n'ai pas trouv\u00e9 cette carte.");
                 if(!sugg.isEmpty()){
                     msg.append("\nTu cherchais peut-\u00eatre celles-ci :");
-                    for (int i = 0; i< 10; i++){
+                    for (int i = 0; i< 10 && i < sugg.size(); i++){
                         msg.append("\n").append(sugg.toArray()[i]);
                     }
                 }
