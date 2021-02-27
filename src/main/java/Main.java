@@ -1,5 +1,4 @@
 
-
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -131,8 +130,8 @@ public class Main extends ListenerAdapter {
                 List<Role> rl = event.getMessage().getMentionedRoles();
                 if(!rl.isEmpty()){
                     event.getChannel().sendMessage("Timer actif !").queue();
-                    Message message = event.getChannel().sendMessage("> 40:00").complete();
-                    message.editMessage("> 40:00").queue();
+                    Message message = event.getChannel().sendMessage("> 45:00").complete();
+                    message.editMessage("> 45:00").queue();
                     timer = new YugiTimer(message, rl.get(0));
                     timer.start();
                 } else {
