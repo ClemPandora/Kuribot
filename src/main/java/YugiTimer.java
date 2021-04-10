@@ -22,7 +22,7 @@ public class YugiTimer extends Thread {
 
     @Override
     public void run() {
-        LocalTime EndTime = LocalTime.now().plusMinutes(45);
+        LocalTime EndTime = LocalTime.now().plusMinutes(50);
         long lastSecond = 0;
         while (EndTime.compareTo(LocalTime.now()) > 0 && timing){
             long sec = LocalTime.now().until(EndTime, SECONDS);
