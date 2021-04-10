@@ -131,7 +131,7 @@ public class Main extends ListenerAdapter {
                 if(!rl.isEmpty()){
                     event.getChannel().sendMessage("Timer actif !").queue();
                     Message message = event.getChannel().sendMessage("> 45:00").complete();
-                    message.editMessage("> 45:00").queue();
+                    message.editMessage("> 50:00").queue();
                     timer = new YugiTimer(message, rl.get(0));
                     timer.start();
                 } else {
