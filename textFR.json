@@ -1,5 +1,5 @@
 {
-  "commandList": "Voici la liste des commandes que je peux exécuter :\n\n+aide : Si tu lis ce message, tu dois savoir à quoi ça sert\n\n+c <nom de carte> : Affiche l'image d'une carte\n\n+arch <nom d'archétype (anglais)> : Vous ajoute un rôle correspondant à l'archétype choisi",
+  "commandList": "Voici la liste des commandes que je peux exécuter :\n\n+aide : Si tu lis ce message, tu dois savoir à quoi ça sert\n\n+c <nom de carte (anglais ou français)> : Affiche l'image d'une carte\n\n+arch <nom d'archétype (anglais)> : Vous ajoute un rôle correspondant à l'archétype choisi\n\n+time <temps en minutes> <Rôle ou personne à mentionner> : Lance un timer qui mentionnera les rôles ou personnes indiqués à la fin du temps. Il est possible de mentionner autant de rôles/personnes que vous le souhaiter, il suffit de tous les mettre dans le message de la commande. Si le temps n'est pas précisé, il sera de 40 minutes par défaut. Il est possible de mettre en pause ou de stopper le timer grâce aux émotes sur celui-ci (seulement pour la personne ayant lancé le timer ou un administrateur du serveur).",
   "statusMessage": "aide pour voir les commandes",
   "archNotFound": "Archétype retiré !",
   "archAdded": "Archétype ajouté !",
