@@ -1,8 +1,8 @@
 {
   "statusMessage": "aide pour voir les commandes",
-  "archNotFound": "Archétype retiré !",
+  "archNotFound": "Archétype introuvable !",
   "archAdded": "Archétype ajouté !",
-  "archRemoved": "Archétype introuvable !",
+  "archRemoved": "Archétype retiré !",
   "startTimer": "Début du time !",
   "stopTimer": "Fin du time !",
   "pauseTimer": "Time mis en pause !",
