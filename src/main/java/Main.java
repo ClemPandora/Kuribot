@@ -1,38 +1,40 @@
-
-import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.events.emote.EmoteAddedEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.requests.GatewayIntent;
+import org.jetbrains.annotations.NotNull;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
+import java.io.Console;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Main extends ListenerAdapter {
-    private final String COMMANDS_LIST =
-            "Salut ! Je suis L'ultime tout-puissant Kuribot marrons aux yeux rouges brillants des t\u00e9n\u00e8bres absolues !" +
-                    "\nVoici la liste des commandes que je peux ex\u00e9cuter :" +
-                    "\n\n+aide : Si tu lis ce message, tu dois savoir \u00e0 quoi \u00e7a sert" +
-                    "\n\n+c <nom de carte (anglais)> : Affiche l'image d'une carte" +
-                    "\n\n+arch <nom d'arch\u00e9type (anglais)> : Vous ajoute un r\u00f4le correspondant \u00e0 l'arch\u00e9type choisi";
-
     private final String CODE = "```";
     private static CardSearch cardSearch;
     private static String cmdChar;
-    private YugiTimer timer;
+    private static HashMap<String, YugiTimer> timers;
+    public static JSONObject TEXT;
 
     public static void main(String[] args) throws Exception{
+        System.out.println("Discord api token = "+System.getenv("DISCORD_API_TOKEN"));
+        timers = new HashMap<>();
+        JSONParser parser = new JSONParser();
+        TEXT = (JSONObject) parser.parse(new FileReader("textFR.json"));
         cardSearch = new CardSearch();
         // On attribut le caractère de commande
         cmdChar = "+";
 
         // On lance l'api JDA
-        String token = "NTU3NTQ4MzcwODk4NDUyNDgy.D3J5Xg.pXd6ZMmtd6nb9oyP9HHeT_xpk_s";
+        String token = (String) TEXT.get("discordApiToken");
         JDABuilder.createDefault(token)
-                .setActivity(Activity.playing(cmdChar+"aide pour voir les commandes"))
+                .setActivity(Activity.playing(cmdChar+TEXT.get("statusMessage")))
                 .addEventListeners(new Main())
                 .build();
     }
@@ -46,14 +48,13 @@ public class Main extends ListenerAdapter {
             String msg = event.getMessage().getContentDisplay();
             if(msg.substring(0,1).equals(cmdChar)) {
                 String cmd;
-                String arg;
+                String arg = "";
                 // Si un espace se trouve dans le message, alors on sépare la commande et ses arguments, sinon on récupère juste la commande
                 if(msg.contains(" ")) {
                     cmd = msg.substring(1, msg.indexOf(" "));
                     arg = msg.substring(msg.indexOf(" ")+1);
                 } else {
                     cmd = msg.substring(1);
-                    arg = "";
                 }
                 // On applique la commande
                 ApplyCommand(cmd, event, arg);
@@ -61,12 +62,32 @@ public class Main extends ListenerAdapter {
         }
     }
 
+    @Override
+    public void onMessageReactionAdd(@NotNull MessageReactionAddEvent event) {
+        //Si la réaction ne vient pas d'un bot
+        if(!event.getUser().isBot()){
+            //Si le message est dans la liste des timer et que l'emote est un emoji
+            if(timers.containsKey(event.getMessageId()) && event.getReactionEmote().isEmoji()){
+                //Si la réaction viens de celui qui a lancé le timer ou d'un admin
+                if(event.getMember().hasPermission(Permission.ADMINISTRATOR) || event.getMember().equals(timers.get(event.getMessageId()).owner)){
+                    String emoji = event.getReactionEmote().getEmoji();
+                    if(emoji.equals(TEXT.get("pauseEmoji"))) {
+                        timers.get(event.getMessageId()).pauseTime();
+                    } else if(emoji.equals(TEXT.get("stopEmoji"))) {
+                        timers.get(event.getMessageId()).stopTime();
+                    } else if(emoji.equals(TEXT.get("playEmoji"))) {
+                        timers.get(event.getMessageId()).playTime();
+                    }
+                }
+            }
+        }
+    }
 
     // Méthode appliquant les commandes
     public void ApplyCommand(String cmd, MessageReceivedEvent event, String arg){
         switch (cmd) {
             case "aide":
-                event.getChannel().sendMessage(CODE + COMMANDS_LIST + CODE).queue();
+                event.getChannel().sendMessage(CODE + TEXT.get("commandList") + CODE).queue();
                 break;
             case "c":
                 event.getChannel().sendMessage(cardSearch.search(arg)).queue();
@@ -108,40 +129,44 @@ public class Main extends ListenerAdapter {
                         rolelist = event.getGuild().getRolesByName("+"+arch,true);
                         assert member != null;
                         event.getGuild().addRoleToMember(member, rolelist.get(0)).queue();
-                        event.getChannel().sendMessage("Arch\u00e9type ajout\u00e9 !").queue();
+                        event.getChannel().sendMessage((String) TEXT.get("archAdded")).queue();
                     } else {
-                        event.getChannel().sendMessage("Arch\u00e9type introuvable !").queue();
+                        event.getChannel().sendMessage((String) TEXT.get("archNotFound")).queue();
                     }
                 } else {
                     assert member != null;
                     if(member.getRoles().contains(rolelist.get(0))){
                         event.getGuild().removeRoleFromMember(member, rolelist.get(0)).queue();
-                        event.getChannel().sendMessage("Arch\u00e9type retir\u00e9 !").queue();
+                        event.getChannel().sendMessage((String) TEXT.get("archRemoved")).queue();
                     } else {
                         event.getGuild().addRoleToMember(member, rolelist.get(0)).queue();
-                        event.getChannel().sendMessage("Arch\u00e9type ajout\u00e9 !").queue();
+                        event.getChannel().sendMessage((String) TEXT.get("archAdded")).queue();
                     }
                 }
                 break;
             case "time":
-                if(timer != null){
-                    timer.stopTime();
+                //On sépare les arguments de la commande pour récupérer le temps
+                String[] args = arg.split(" ");
+                int time;
+                //Si le temps est valide, on le fixe à cette valeur, sinon il est fixé à 40min
+                try{
+                    time = Integer.parseInt(args[0]);
+                } catch (NumberFormatException e){
+                    time = 40;
                 }
+                //On récupère toutes les mentions contenues dans la commande
                 List<Role> rl = event.getMessage().getMentionedRoles();
-                if(!rl.isEmpty()){
-                    event.getChannel().sendMessage("Timer actif !").queue();
-                    Message message = event.getChannel().sendMessage("> 45:00").complete();
-                    message.editMessage("> 50:00").queue();
-                    timer = new YugiTimer(message, rl.get(0));
-                    timer.start();
-                } else {
-                    event.getChannel().sendMessage("Merci de pr\u00e9ciser le r\u00f4le \u00e0 mentionner.").queue();
-                }
-                break;
-            case "stop":
-                if (timer != null){
-                    timer.stopTime();
-                }
+                List<User> ur = event.getMessage().getMentionedUsers();
+                //On envoi le message du timer
+                event.getChannel().sendMessage((String) TEXT.get("startTimer")).queue();
+                Message message = event.getChannel().sendMessage("> "+time+":00").complete();
+                message.addReaction((String) TEXT.get("stopEmoji")).queue();
+                message.addReaction((String) TEXT.get("pauseEmoji")).queue();
+                //On créé un timer
+                YugiTimer timer = new YugiTimer(message, rl, ur, message.getMember(),time);
+                timer.start();
+                //On ajoute le message dans la liste des timers
+                timers.put(message.getId(),timer);
                 break;
             default:
                 break;

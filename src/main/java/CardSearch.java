@@ -1,5 +1,3 @@
-import org.json.JSONObject;
-
 import java.io.FileOutputStream;
 import java.net.URL;
 import java.nio.channels.Channels;
@@ -117,10 +115,6 @@ public class CardSearch {
             }
         }
         return "";
-    }
-
-    public JSONObject searchById(String id) {
-        return null;
     }
 
     public String random() {
