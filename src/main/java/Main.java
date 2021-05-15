@@ -23,7 +23,6 @@ public class Main extends ListenerAdapter {
     public static JSONObject TEXT;
 
     public static void main(String[] args) throws Exception{
-        System.out.println("Discord api token = "+System.getenv("DISCORD_API_TOKEN"));
         timers = new HashMap<>();
         JSONParser parser = new JSONParser();
         TEXT = (JSONObject) parser.parse(new FileReader("textFR.json"));
@@ -32,7 +31,7 @@ public class Main extends ListenerAdapter {
         cmdChar = "+";
 
         // On lance l'api JDA
-        String token = (String) TEXT.get("discordApiToken");
+        String token = System.getenv("DISCORD_API_TOKEN");
         JDABuilder.createDefault(token)
                 .setActivity(Activity.playing(cmdChar+TEXT.get("statusMessage")))
                 .addEventListeners(new Main())

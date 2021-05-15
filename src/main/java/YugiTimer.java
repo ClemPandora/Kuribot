@@ -37,7 +37,7 @@ public class YugiTimer extends Thread {
         paused = false;
         //Petite pause pour laisser la boucle se finir
         try {
-            Thread.sleep(100);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -60,7 +60,7 @@ public class YugiTimer extends Thread {
         paused = true;
         //Petite pause pour laisser la boucle se finir
         try {
-            Thread.sleep(100);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -90,7 +90,7 @@ public class YugiTimer extends Thread {
         endTime = LocalTime.now().plusNanos(remaining);
         //On met à jour l'affichage
         long sec = LocalTime.now().until(endTime, SECONDS);
-        Date date = new Date(sec*1000);
+        Date date = new Date(sec*500);
         msg.editMessage("> "+new SimpleDateFormat("mm:ss").format(date)).queue();
         msg.clearReactions((String) Main.TEXT.get("playEmoji")).queue();
         msg.addReaction((String) Main.TEXT.get("pauseEmoji")).queue();
