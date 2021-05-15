@@ -125,5 +125,6 @@ public class YugiTimer extends Thread {
                 msg.editMessage("> "+new SimpleDateFormat("mm:ss").format(date)).queue();
             }
         }
+        stopTime();
     }
 }

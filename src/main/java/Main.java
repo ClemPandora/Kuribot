@@ -1,3 +1,4 @@
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
@@ -9,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import java.awt.*;
 import java.io.Console;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ public class Main extends ListenerAdapter {
     private static String cmdChar;
     private static HashMap<String, YugiTimer> timers;
     public static JSONObject TEXT;
+    public static EmbedBuilder helpMessage;
 
     public static void main(String[] args) throws Exception{
         timers = new HashMap<>();
@@ -29,6 +32,14 @@ public class Main extends ListenerAdapter {
         cardSearch = new CardSearch();
         // On attribut le caractère de commande
         cmdChar = "+";
+
+        helpMessage = new EmbedBuilder();
+        helpMessage.setColor(new Color(70,190,100));
+        helpMessage.setAuthor("Commandes du Kuribot :");
+        helpMessage.addField("+aide","Si tu lis ce message, tu dois savoir à quoi ça sert", false);
+        helpMessage.addField("+c <nom de carte (anglais ou français)>", "Affiche l'image d'une carte",false);
+        helpMessage.addField("+arch <nom d'archétype (anglais)>", "Vous ajoute un rôle correspondant à l'archétype choisi", false);
+        helpMessage.addField("+time <temps en minutes> <Rôle ou personne à mentionner>","Lance un timer qui mentionnera les rôles ou personnes indiqués à la fin du temps. Il est possible de mentionner autant de rôles/personnes que vous le souhaiter, il suffit de tous les mettre dans le message de la commande. Si le temps n'est pas précisé, il sera de 40 minutes par défaut. Il est possible de mettre en pause ou de stopper le timer grâce aux émotes sur celui-ci (seulement pour la personne ayant lancé le timer ou un administrateur du serveur).", false);
 
         // On lance l'api JDA
         String token = System.getenv("DISCORD_API_TOKEN");
@@ -86,7 +97,7 @@ public class Main extends ListenerAdapter {
     public void ApplyCommand(String cmd, MessageReceivedEvent event, String arg){
         switch (cmd) {
             case "aide":
-                event.getChannel().sendMessage(CODE + TEXT.get("commandList") + CODE).queue();
+                event.getChannel().sendMessage(helpMessage.build()).queue();
                 break;
             case "c":
                 event.getChannel().sendMessage(cardSearch.search(arg)).queue();
