@@ -90,7 +90,7 @@ public class YugiTimer extends Thread {
         endTime = LocalTime.now().plusNanos(remaining);
         //On met à jour l'affichage
         long sec = LocalTime.now().until(endTime, SECONDS);
-        Date date = new Date(sec*500);
+        Date date = new Date(sec*1000);
         msg.editMessage("> "+new SimpleDateFormat("mm:ss").format(date)).queue();
         msg.clearReactions((String) Main.TEXT.get("playEmoji")).queue();
         msg.addReaction((String) Main.TEXT.get("pauseEmoji")).queue();
