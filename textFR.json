@@ -1,0 +1,15 @@
+{
+  "discordApiToken": "NTU3NTQ4MzcwODk4NDUyNDgy.D3J5Xg.pXd6ZMmtd6nb9oyP9HHeT_xpk_s",
+  "commandList": "Voici la liste des commandes que je peux exécuter :\n\n+aide : Si tu lis ce message, tu dois savoir à quoi ça sert\n\n+c <nom de carte> : Affiche l'image d'une carte\n\n+arch <nom d'archétype (anglais)> : Vous ajoute un rôle correspondant à l'archétype choisi",
+  "statusMessage": "aide pour voir les commandes",
+  "archNotFound": "Archétype retiré !",
+  "archAdded": "Archétype ajouté !",
+  "archRemoved": "Archétype introuvable !",
+  "startTimer": "Début du time !",
+  "stopTimer": "Fin du time !",
+  "pauseTimer": "Time mis en pause !",
+  "endPauseTimer": "Reprise du time !",
+  "stopEmoji": "⏹",
+  "pauseEmoji": "⏸",
+  "playEmoji": "▶️"
+}
