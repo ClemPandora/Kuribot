@@ -18,7 +18,7 @@ public class YugiTimer extends Thread {
     private List<User> users;
     private int time;
     private boolean timing;
-    private boolean paused;
+    private volatile boolean paused;
     private long remaining;
     private LocalTime endTime;
 
@@ -37,7 +37,7 @@ public class YugiTimer extends Thread {
         paused = false;
         //Petite pause pour laisser la boucle se finir
         try {
-            Thread.sleep(500);
+            Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -60,7 +60,7 @@ public class YugiTimer extends Thread {
         paused = true;
         //Petite pause pour laisser la boucle se finir
         try {
-            Thread.sleep(500);
+            Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

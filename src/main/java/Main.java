@@ -68,7 +68,7 @@ public class Main extends ListenerAdapter {
             //Si le message est dans la liste des timer et que l'emote est un emoji
             if(timers.containsKey(event.getMessageId()) && event.getReactionEmote().isEmoji()){
                 //Si la réaction viens de celui qui a lancé le timer ou d'un admin
-                if(event.getMember().hasPermission(Permission.ADMINISTRATOR) || event.getMember().equals(timers.get(event.getMessageId()).owner)){
+                if(event.getMember().hasPermission(Permission.ADMINISTRATOR) || event.getMember().getId().equals(timers.get(event.getMessageId()).owner.getId())){
                     String emoji = event.getReactionEmote().getEmoji();
                     if(emoji.equals(TEXT.get("pauseEmoji"))) {
                         timers.get(event.getMessageId()).pauseTime();
