@@ -68,7 +68,7 @@ public class Main extends ListenerAdapter {
             //Si le message est dans la liste des timer et que l'emote est un emoji
             if(timers.containsKey(event.getMessageId()) && event.getReactionEmote().isEmoji()){
                 //Si la réaction viens de celui qui a lancé le timer ou d'un admin
-                if(event.getMember().hasPermission(Permission.ADMINISTRATOR) || event.getMember().getId().equals(timers.get(event.getMessageId()).owner.getId())){
+                if(event.getMember().hasPermission(Permission.ADMINISTRATOR) || event.getMember().equals(timers.get(event.getMessageId()).owner)){
                     String emoji = event.getReactionEmote().getEmoji();
                     if(emoji.equals(TEXT.get("pauseEmoji"))) {
                         timers.get(event.getMessageId()).pauseTime();
@@ -162,7 +162,7 @@ public class Main extends ListenerAdapter {
                 message.addReaction((String) TEXT.get("stopEmoji")).queue();
                 message.addReaction((String) TEXT.get("pauseEmoji")).queue();
                 //On créé un timer
-                YugiTimer timer = new YugiTimer(message, rl, ur, message.getMember(),time);
+                YugiTimer timer = new YugiTimer(message, rl, ur, event.getMember(),time);
                 timer.start();
                 //On ajoute le message dans la liste des timers
                 timers.put(message.getId(),timer);
