@@ -35,25 +35,6 @@ public class YugiTimer extends Thread {
     public void stopTime(){
         timing = false;
         paused = false;
-        //Petite pause pour laisser la boucle se finir
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        //On efface le message du timer
-        msg.delete().queue();
-        //On mentionne tous les rôles
-        StringBuilder str = new StringBuilder();
-        for (Role rl: roles) {
-            str.append(" ");
-            str.append(rl.getAsMention());
-        }
-        for (User ur: users) {
-            str.append(" ");
-            str.append(ur.getAsMention());
-        }
-        msg.getChannel().sendMessage(Main.TEXT.get("stopTimer")+str.toString()).queue();
     }
 
     public void pauseTime() {
@@ -108,6 +89,22 @@ public class YugiTimer extends Thread {
         paused = false;
     }
 
+    private void endTime(){
+        //On efface le message du timer
+        msg.delete().queue();
+        //On mentionne tous les rôles
+        StringBuilder str = new StringBuilder();
+        for (Role rl: roles) {
+            str.append(" ");
+            str.append(rl.getAsMention());
+        }
+        for (User ur: users) {
+            str.append(" ");
+            str.append(ur.getAsMention());
+        }
+        msg.getChannel().sendMessage(Main.TEXT.get("stopTimer")+str.toString()).queue();
+    }
+
     @Override
     public void run() {
         endTime = LocalTime.now().plusMinutes(time);
@@ -125,6 +122,6 @@ public class YugiTimer extends Thread {
                 msg.editMessage("> "+new SimpleDateFormat("mm:ss").format(date)).queue();
             }
         }
-        stopTime();
+        endTime();
     }
 }
