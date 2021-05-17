@@ -13,7 +13,9 @@ import org.json.simple.parser.JSONParser;
 import java.awt.*;
 import java.io.Console;
 import java.io.FileReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -169,7 +171,8 @@ public class Main extends ListenerAdapter {
                 List<User> ur = event.getMessage().getMentionedUsers();
                 //On envoi le message du timer
                 event.getChannel().sendMessage((String) TEXT.get("startTimer")).queue();
-                Message message = event.getChannel().sendMessage("> "+time+":00").complete();
+                Date date = new Date(time * 60000L);
+                Message message = event.getChannel().sendMessage("> "+new SimpleDateFormat("hh:mm:ss").format(date)).complete();
                 message.addReaction((String) TEXT.get("stopEmoji")).queue();
                 message.addReaction((String) TEXT.get("pauseEmoji")).queue();
                 //On créé un timer
