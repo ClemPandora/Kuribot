@@ -9,5 +9,6 @@
   "endPauseTimer": "Reprise du time !",
   "stopEmoji": "⏹",
   "pauseEmoji": "⏸",
-  "playEmoji": "▶️"
+  "playEmoji": "▶️",
+  "maintenance": "Cette fonction est actuellement en maintenance, désolé pour la gène occasionnée"
 }

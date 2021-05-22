@@ -26,12 +26,14 @@ public class Main extends ListenerAdapter {
     private static HashMap<String, YugiTimer> timers;
     public static JSONObject TEXT;
     public static EmbedBuilder helpMessage;
+    public final static String[] numbers = {"0️⃣","1️⃣","2️⃣"};
 
     public static void main(String[] args) throws Exception{
         timers = new HashMap<>();
         JSONParser parser = new JSONParser();
         TEXT = (JSONObject) parser.parse(new FileReader("textFR.json"));
-        cardSearch = new CardSearch();
+        CardSearchAPI cardSearchAPI = new CardSearchAPI();
+        //cardSearch = new CardSearch();
         // On attribut le caractère de commande
         cmdChar = "+";
 
@@ -102,7 +104,8 @@ public class Main extends ListenerAdapter {
                 event.getChannel().sendMessage(helpMessage.build()).queue();
                 break;
             case "c":
-                event.getChannel().sendMessage(cardSearch.search(arg)).queue();
+                //event.getChannel().sendMessage(cardSearch.search(arg)).queue();
+                event.getChannel().sendMessage((String) TEXT.get("maintenance")).queue();
                 break;
             case "d":
                 /*List<Message.Attachment> list = event.getMessage().getAttachments();
