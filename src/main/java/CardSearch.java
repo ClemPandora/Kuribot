@@ -12,9 +12,9 @@ public class CardSearch {
     private final String CARDINFO_URL = "https://raw.githubusercontent.com/NaimSantos/DataEditorX/master/DataEditorX/data/cardinfo_english.txt";
     private final String[] CARDSDB_URL = {
             "https://github.com/ProjectIgnis/BabelCDB/raw/master/cards.cdb", // Anglais
-            "https://github.com/ProjectIgnis/BabelCDB/raw/master/release.cdb", // Nouvelles Anglais
+            "https://github.com/ProjectIgnis/BabelCDB/raw/master/prerelease.cdb", // Nouvelles Anglais
             "https://github.com/Team13fr/IgnisMulti/raw/master/Fran%C3%A7ais/cards.cdb", // Français
-            "https://github.com/Team13fr/IgnisMulti/raw/master/Fran%C3%A7ais/release.cdb" // Nouvelles Français
+            "https://github.com/Team13fr/IgnisMulti/raw/master/Fran%C3%A7ais/prerelease.cdb" // Nouvelles Français
     };
     private final String[] DBFILENAME = {
             "cards_en.cdb",
