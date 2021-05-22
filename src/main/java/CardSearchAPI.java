@@ -13,7 +13,7 @@ public class CardSearchAPI {
 
     public CardSearchAPI() {
         try {
-            URL url = new URL("https://db.ygoprodeck.com/api/v7/cardinfo.php");
+            URL url = new URL("https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Decode%20Talker");
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -23,16 +23,6 @@ public class CardSearchAPI {
             int responsecode = conn.getResponseCode();
 
             if (responsecode != 200) {
-                String inline = "";
-                Scanner scanner = new Scanner(url.openStream());
-
-                //Write all the JSON data into a string using a scanner
-                while (scanner.hasNext()) {
-                    inline += scanner.nextLine();
-                }
-                //Close the scanner
-                scanner.close();
-                System.out.println(inline);
                 throw new RuntimeException("HttpResponseCode: " + responsecode);
             } else {
                 String inline = "";
