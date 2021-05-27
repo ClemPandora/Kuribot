@@ -115,7 +115,7 @@ public class YugiTimer extends Thread {
             }
             long sec = LocalTime.now().until(endTime, SECONDS);
             //Sur un multiple de 5 seconde
-            if(sec != lastSecond){
+            if(sec != lastSecond && sec%2 == 0){
                 //On met à a jour le timer
                 lastSecond = sec;
                 Date date = new Date(sec*1000);
