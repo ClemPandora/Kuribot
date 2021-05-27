@@ -132,7 +132,7 @@ public class Main extends ListenerAdapter {
                 //TODO Recherche aléatoire
                 break;
             case "arch":
-                List<Role> rolelist = event.getGuild().getRolesByName("+"+arg,true);
+                /*List<Role> rolelist = event.getGuild().getRolesByName("+"+arg,true);
                 Member member = event.getMember();
                 if(rolelist.isEmpty()) {
                     String arch = cardSearch.searchArch(arg);
@@ -154,7 +154,7 @@ public class Main extends ListenerAdapter {
                         event.getGuild().addRoleToMember(member, rolelist.get(0)).queue();
                         event.getChannel().sendMessage((String) TEXT.get("archAdded")).queue();
                     }
-                }
+                }*/
                 break;
             case "time":
                 //On sépare les arguments de la commande pour récupérer le temps
@@ -172,7 +172,7 @@ public class Main extends ListenerAdapter {
                 //On envoi le message du timer
                 event.getChannel().sendMessage((String) TEXT.get("startTimer")).queue();
                 Date date = new Date(time * 60000L);
-                Message message = event.getChannel().sendMessage("> "+new SimpleDateFormat("hh:mm:ss").format(date)).complete();
+                Message message = event.getChannel().sendMessage("> "+new SimpleDateFormat("HH:mm:ss").format(date)).complete();
                 message.addReaction((String) TEXT.get("stopEmoji")).queue();
                 message.addReaction((String) TEXT.get("pauseEmoji")).queue();
                 //On créé un timer

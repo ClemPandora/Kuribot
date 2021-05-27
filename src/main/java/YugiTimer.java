@@ -50,7 +50,7 @@ public class YugiTimer extends Thread {
         //On met à jour l'affichage
         long sec = LocalTime.now().until(endTime, SECONDS);
         Date date = new Date(sec*1000);
-        msg.editMessage("> "+new SimpleDateFormat("hh:mm:ss").format(date)+" (pause)").queue();
+        msg.editMessage("> "+new SimpleDateFormat("HH:mm:ss").format(date)+" (pause)").queue();
         msg.clearReactions((String) Main.TEXT.get("pauseEmoji")).queue();
         msg.addReaction((String) Main.TEXT.get("playEmoji")).queue();
         //On mentionne tous les rôles
@@ -72,7 +72,7 @@ public class YugiTimer extends Thread {
         //On met à jour l'affichage
         long sec = LocalTime.now().until(endTime, SECONDS);
         Date date = new Date(sec*1000);
-        msg.editMessage("> "+new SimpleDateFormat("hh:mm:ss").format(date)).queue();
+        msg.editMessage("> "+new SimpleDateFormat("HH:mm:ss").format(date)).queue();
         msg.clearReactions((String) Main.TEXT.get("playEmoji")).queue();
         msg.addReaction((String) Main.TEXT.get("pauseEmoji")).queue();
         //On mentionne tous les rôles
@@ -115,11 +115,11 @@ public class YugiTimer extends Thread {
             }
             long sec = LocalTime.now().until(endTime, SECONDS);
             //Sur un multiple de 5 seconde
-            if(sec != lastSecond && sec%5 == 0){
+            if(sec != lastSecond){
                 //On met à a jour le timer
                 lastSecond = sec;
                 Date date = new Date(sec*1000);
-                msg.editMessage("> "+new SimpleDateFormat("hh:mm:ss").format(date)).queue();
+                msg.editMessage("> "+new SimpleDateFormat("HH:mm:ss").format(date)).queue();
             }
         }
         endTime();
